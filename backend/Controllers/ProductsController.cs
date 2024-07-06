@@ -5,9 +5,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace backend.Controllers
 {
-    [ApiController]
-    [Route("api/[controller]")]
-    public class ProductsController : ControllerBase
+    public class ProductsController : BaseApiController
     {
         public StoreContext _context;
 
