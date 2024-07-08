@@ -1,4 +1,5 @@
 using backend.Data;
+using backend.middelware;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -21,6 +22,8 @@ builder
 builder.Services.AddCors();
 var app = builder.Build();
 
+app.UseMiddleware<ExceptionMiddleware>();
+
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {
@@ -40,7 +43,7 @@ var scope = app.Services.CreateScope();
 var context = scope.ServiceProvider.GetRequiredService<StoreContext>();
 var logger = scope.ServiceProvider.GetRequiredService<ILogger<Program>>();
 
-//Put a try catch to catch if migrationf fails
+//Put a try catch to catch if migration fails
 try
 {
     context.Database.Migrate();

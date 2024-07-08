@@ -8,10 +8,10 @@ import {
   TableRow,
   Typography,
 } from "@mui/material";
-import axios from "axios";
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { Product } from "../../app/models/product";
+import agent from "../../app/api/agent";
 
 const ProductDetails = () => {
   //useParams allows you go get the id of a specific product
@@ -22,11 +22,13 @@ const ProductDetails = () => {
   const [isLoading, setIsloading] = useState(true);
 
   useEffect(() => {
-    axios
-      .get(`http://localhost:5000/api/products/${id}`)
-      .then((response) => setProduct(response.data))
-      .catch((error) => console.log(error))
-      .finally(() => setIsloading(false));
+    //check if we have id before we can parseInt(id)
+    //Code after && will execute if we have an id
+    id &&
+      agent.Catalog.details(parseInt(id))
+        .then((response) => setProduct(response))
+        .catch((error) => console.log(error))
+        .finally(() => setIsloading(false));
   }, [id]);
 
   if (isLoading) {
